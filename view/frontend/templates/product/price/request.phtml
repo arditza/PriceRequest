@@ -1,0 +1,116 @@
+<?php
+/**
+ * Product view template
+ *
+ * @var $block \Azra\PriceRequest\Block\Price\Request
+ */
+
+ ?>
+<?php
+
+    $_product = $block->getProduct();
+    if (!$_product instanceof \Magento\Catalog\Model\Product) {
+        return;
+    }
+ ?>
+<?php if ($block->isEnabled()): ?>
+    <div class="price-request">
+        <div class="action">
+            <a href="" id="price-request-btn" class="action submit primary"><?php echo $block->escapeHtml(__("Click here to view price"))?></a>
+            <!-- tooltip/comment -->
+        </div>
+        <!-- <div id="price-request-modal" style="display: none"> -->
+        <div id="price-request-modal">
+            <div class="modal-content">
+                <form class="form form-price-request"
+                    action="<?= $block->escapeUrl($block->getFormAction()) ?>"
+                    method="post"
+                    id="price-request-form"
+                    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                    autocomplete="off">
+                    <fieldset class="fieldset create info">
+                        <input type="hidden" name="product_sku" value="<?php echo $_product->getSku() ?>">
+                        <input type="hidden" name="hideit" value="">
+                        <div class="field required">
+                            <label for="user_full_name" class="label"><span><?= $block->escapeHtml(__('Full Name')) ?></span></label>
+                            <div class="control">
+                                <input type="text" name="user_full_name" autocomplete="user_full_name" id="user_full_name" value="<?php echo $block->escapeHtmlAttr($block->getCustomerName()) ?>" title="<?= $block->escapeHtmlAttr(__('Full Name')) ?>" class="input-text" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true}">
+                            </div>
+                        </div>
+                        <div class="field required">
+                            <label for="email_address" class="label"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+                            <div class="control">
+                                <input type="email" name="email" autocomplete="email" id="email_address" value="<?php echo $block->escapeHtmlAttr($block->getCustomerEmail()) ?>" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" class="input-text" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true, 'validate-email':true}">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="comment" class="label"><span><?= $block->escapeHtml(__('Message')) ?></span></label>
+                            <div class="control">
+                                <textarea name="comment" id="comment" cols="30" rows="10" title="<?= $block->escapeHtmlAttr(__('Message')) ?>" class="input-text"></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="actions-toolbar">
+                        <div class="primary">
+                            <button type="submit" class="action submit primary" title="<?= $block->escapeHtmlAttr(__('Submit Request')) ?>"><span><?= $block->escapeHtml(__('Submit Request')) ?></span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        require(
+            [
+                'jquery',
+                'Magento_Ui/js/modal/modal'
+            ],
+            function(
+                $,
+                modal
+            ) {
+                var options = {
+                    type: 'popup',
+                    responsive: true,
+                    innerScroll: true,
+                    title: $.mage.__('Price Request Form'),
+                    buttons: []
+                };
+
+                var popup = modal(options, $('#price-request-modal'));
+
+                $('#price-request-btn').click(function(event) {
+                    event.preventDefault();
+                    $('#price-request-modal').modal('openModal');
+                });
+                var form = $('#price-request-form');
+                form.submit(function(e) {
+                    $('body').trigger('processStart');
+                    if(form.validation('isValid')){
+                        e.preventDefault();
+                        var url = form.attr('action');
+                        let data = form.serialize();
+                        if (data) {
+                            $.ajax({
+                                url: url,
+                                dataType: 'json',
+                                type: 'POST',
+                                data: data,
+                                success: function (response){
+                                    console.log(response);
+                                    $('body').trigger('processStop');
+                                },
+                                error: function (response) {
+                                    console.log(response);
+                                    $('body').trigger('processStop');
+                                }
+                            });
+                        }
+                    } else {
+                        $('body').trigger('processStop');
+                    }
+                });
+            }
+        );
+    </script>
+<?php endif ?>

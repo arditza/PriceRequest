@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Azra\PriceRequest\Model\ResourceModel\Request\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">azra_price_requests</argument>
+            <argument name="resourceModel" xsi:type="string">Azra\PriceRequest\Model\ResourceModel\Request\Collection</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="price_request_listing_data_source" xsi:type="string">Azra\PriceRequest\Model\ResourceModel\Request\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

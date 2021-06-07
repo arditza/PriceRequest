@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Azra_PriceRequest::top_level" title="Price Requests" module="Azra_PriceRequest" sortOrder="31" resource="Magento_Backend::content"/>
+        <add id="Azra_PriceRequest::azra_pricerequest_request" title="View Requests" module="Azra_PriceRequest" sortOrder="10" resource="Magento_Backend::content" parent="Azra_PriceRequest::top_level" action="price/request/index"/>
+    </menu>
+</config>
