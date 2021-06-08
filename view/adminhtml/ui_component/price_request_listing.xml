@@ -40,7 +40,42 @@
         </settings>
         <bookmark name="bookmarks"/>
         <columnsControls name="columns_controls"/>
-        <filters name="listing_filters"/>
+        <filters name="listing_filters">
+            <settings>
+                <templates>
+                    <filters>
+                        <select>
+                            <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
+                            <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
+                        </select>
+                    </filters>
+                </templates>
+            </settings>
+            <filterSelect name="store_id" provider="${ $.parentName }">
+                <settings>
+                    <captionValue>0</captionValue>
+                    <options class="Magento\Cms\Ui\Component\Listing\Column\Cms\Options"/>
+                    <label translate="true">Store View</label>
+                    <dataScope>store_id</dataScope>
+                    <imports>
+                        <link name="visible">componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+        </filters>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected items?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="price/request/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+        </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="price_request_columns">
@@ -115,7 +150,6 @@
         </column>
         <column name="comment">
             <settings>
-                <filter>text</filter>
                 <label translate="true">Customer Comment</label>
                 <editor>
                     <editorType>text</editorType>
@@ -144,11 +178,11 @@
                 <label translate="true">Request Creation Time</label>
             </settings>
         </column>
-        <column name="updated_at">
+        <!-- <column name="updated_at">
             <settings>
                 <label translate="true">Request Update Time</label>
             </settings>
-        </column>
+        </column> -->
         <actionsColumn name="actions" class="Azra\PriceRequest\Ui\Component\Listing\Column\PriceRequestActions">
             <settings>
                 <indexField>entity_id</indexField>

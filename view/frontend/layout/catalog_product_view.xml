@@ -4,7 +4,7 @@
     <body>
         <referenceBlock name="product.price.final" display="false"/>
         <referenceContainer name="product.info.price">
-            <block class="Azra\PriceRequest\Block\Price\Request" name="product.price.request" after="product.price.final" template="Azra_PriceRequest::product/price/request.phtml" />
+            <block class="Azra\PriceRequest\Block\Price\Request" name="product.price.request" before="product.price.final" template="Azra_PriceRequest::product/price/request.phtml" />
         </referenceContainer>
     </body>
 </page>

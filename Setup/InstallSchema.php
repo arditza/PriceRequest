@@ -2,6 +2,7 @@
 
 namespace Azra\PriceRequest\Setup;
 
+use Azra\PriceRequest\Model\Request\StatusProvider;
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -58,13 +59,13 @@ class InstallSchema implements InstallSchemaInterface {
 			'status',
 			Table::TYPE_SMALLINT,
 			2,
-			['nullable' => false],
+			['nullable' => false, "default" => StatusProvider::NEW_STATUS],
 			'Price Request Status'
 		)->addColumn(
-			'store_id',
-			Table::TYPE_INT,
-			5,
-			['nullable' => false],
+			'store_id', // analityc purpose
+			Table::TYPE_SMALLINT,
+			null,
+			['nullable' => false, "default" => 0],
 			'Price Request Store Id'
 		)->addColumn(
 			'created_at',

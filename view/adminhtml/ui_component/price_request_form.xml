@@ -54,7 +54,7 @@
                 </select>
             </formElements>
         </field>
-        <field name="user_full_name" formElement="textarea" sortOrder="10">
+        <field name="user_full_name" formElement="input" sortOrder="10">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">Request</item>
@@ -81,6 +81,7 @@
                 <dataScope>email</dataScope>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-email" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>
@@ -109,9 +110,6 @@
                 <dataType>text</dataType>
                 <label translate="true">Customer Comment</label>
                 <dataScope>comment</dataScope>
-                <validation>
-                    <rule name="required-entry" xsi:type="boolean">true</rule>
-                </validation>
             </settings>
         </field>
     </fieldset>

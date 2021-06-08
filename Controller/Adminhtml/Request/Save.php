@@ -55,6 +55,10 @@ class Save extends \Magento\Backend\App\Action {
 			$model->setData($data);
 
 			try {
+				/**
+				 * do not check for product sku because it might be deleted
+				 * and we should allow admins to edit pricer requests either way
+				 */
 				$model->save();
 				$this->messageManager->addSuccessMessage(__('You saved the Request.'));
 				$this->dataPersistor->clear('azra_pricerequest_request');

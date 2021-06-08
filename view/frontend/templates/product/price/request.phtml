@@ -7,7 +7,6 @@
 
  ?>
 <?php
-
     $_product = $block->getProduct();
     if (!$_product instanceof \Magento\Catalog\Model\Product) {
         return;
@@ -16,17 +15,15 @@
 <?php if ($block->isEnabled()): ?>
     <div class="price-request">
         <div class="action">
-            <a href="" id="price-request-btn" class="action submit primary"><?php echo $block->escapeHtml(__("Click here to view price"))?></a>
-            <!-- tooltip/comment -->
+            <a href="" id="price-request-btn" class="action submit primary"><?php echo $block->escapeHtml(__("Price quote form"))?></a>
         </div>
-        <!-- <div id="price-request-modal" style="display: none"> -->
-        <div id="price-request-modal">
-            <div class="modal-content">
+        <div id="price-request-modal" style="display: none">
+            <div class="modal-content-wrapper">
+                <div class="request-messages-wrapper"></div>
                 <form class="form form-price-request"
                     action="<?= $block->escapeUrl($block->getFormAction()) ?>"
                     method="post"
                     id="price-request-form"
-                    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
                     autocomplete="off">
                     <fieldset class="fieldset create info">
                         <input type="hidden" name="product_sku" value="<?php echo $_product->getSku() ?>">
@@ -59,58 +56,15 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        require(
-            [
-                'jquery',
-                'Magento_Ui/js/modal/modal'
-            ],
-            function(
-                $,
-                modal
-            ) {
-                var options = {
-                    type: 'popup',
-                    responsive: true,
-                    innerScroll: true,
-                    title: $.mage.__('Price Request Form'),
-                    buttons: []
-                };
-
-                var popup = modal(options, $('#price-request-modal'));
-
-                $('#price-request-btn').click(function(event) {
-                    event.preventDefault();
-                    $('#price-request-modal').modal('openModal');
-                });
-                var form = $('#price-request-form');
-                form.submit(function(e) {
-                    $('body').trigger('processStart');
-                    if(form.validation('isValid')){
-                        e.preventDefault();
-                        var url = form.attr('action');
-                        let data = form.serialize();
-                        if (data) {
-                            $.ajax({
-                                url: url,
-                                dataType: 'json',
-                                type: 'POST',
-                                data: data,
-                                success: function (response){
-                                    console.log(response);
-                                    $('body').trigger('processStop');
-                                },
-                                error: function (response) {
-                                    console.log(response);
-                                    $('body').trigger('processStop');
-                                }
-                            });
-                        }
-                    } else {
-                        $('body').trigger('processStop');
-                    }
-                });
+    <script type="text/x-magento-init">
+        {
+            "#price-request-form": {
+                "priceRequest": {
+                    "modalButtonId": "#price-request-btn",
+                    "priceRequestModalId": "#price-request-modal",
+                    "messageContainer": ".request-messages-wrapper"
+                }
             }
-        );
+        }
     </script>
 <?php endif ?>

@@ -54,11 +54,13 @@ class Post extends Action {
 	protected $resultForwardFactory;
 
 	/**
-	 * Constructor
-	 *
-	 * @param Data            $jsonHelper
-	 * @param Context         $context
-	 * @param LoggerInterface $logger
+	 * @param Context                    $context
+	 * @param LoggerInterface            $logger
+	 * @param JsonFactory                $resultJsonFactory
+	 * @param RequestFactory             $requestFactory
+	 * @param ForwardFactory             $resultForwardFactory
+	 * @param StoreManagerInterface      $storeManager
+	 * @param ProductRepositoryInterface $productRepository
 	 */
 	public function __construct(
 		Context $context,
@@ -121,7 +123,6 @@ class Post extends Action {
 		$priceRequest = $this->requestFactory->create();
 		$store = $this->storeManager->getStore();
 		$priceRequest->setData($data);
-		// set status
 		$priceRequest->setData("store_id", $store->getId());
 		$priceRequest->save();
 	}
@@ -137,9 +138,6 @@ class Post extends Action {
 		}
 		if (!$request->getParam('product_sku') || trim($request->getParam('product_sku')) === '') {
 			throw new LocalizedException(__('Something went wrong please try again later.'));
-		}
-		if (!$request->getParam('comment') || trim($request->getParam('comment')) === '') {
-			throw new LocalizedException(__('Enter the message and try again.'));
 		}
 		if (false === \strpos($request->getParam('email'), '@')) {
 			throw new LocalizedException(__('The email address is invalid. Verify the email address and try again.'));

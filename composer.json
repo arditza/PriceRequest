@@ -1,6 +1,6 @@
 {
     "name": "azra/module-pricerequest",
-    "description": "Module responsible for hidding product price in product detail page and replacing it with a price request form",
+    "description": "Module responsible for enabling customers to request price quotes",
     "type": "magento2-module",
     "license": "GPL-3.0",
     "authors": [
